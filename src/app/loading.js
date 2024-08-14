@@ -1,5 +1,5 @@
+import Spinner from "@/app/_components/Spinner.js";
+
 export default function Loading(){
-    return <p>
-        Loading Data..
-    </p>
+    return <Spinner/>
 }
