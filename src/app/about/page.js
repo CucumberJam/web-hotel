@@ -2,10 +2,13 @@ import Image from "next/image";
 import about1 from '../../../public/about-1.jpg'
 import about2 from '../../../public/about-2.jpg'
 import Link from "next/link.js";
+import {getCabins} from "@/app/_lib/data-service.js";
+export const revalidate = 86400;
 export const metadata = {
     title: 'About'
 }
-export default function Page(){
+export default async function Page(){
+    const cabins = await getCabins();
     return (
         <div className="grid items-center
                 grid-cols-5
@@ -27,7 +30,7 @@ export default function Page(){
                         simple pleasures with family.
                     </p>
                     <p className='text-sm sm:text-base md:text-lg'>
-                        Our 8 luxury cabins provide a cozy base, but the real freedom and
+                        Our {cabins.length} luxury cabins provide a cozy base, but the real freedom and
                         peace you will find in the surrounding mountains. Wander through lush
                         forests, breathe in the fresh air, and watch the stars twinkle above
                         from the warmth of a campfire or your hot tub.
