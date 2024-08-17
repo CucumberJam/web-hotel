@@ -1,12 +1,14 @@
 import CabinList from "@/app/_components/CabinList.js";
 import {Suspense} from "react";
 import Spinner from "@/app/_components/Spinner.js";
+import Filter from "@/app/_components/Filter.js";
 
-export const revalidate = 360;
+export const revalidate = 360; //Do not need it bc use of searchParams it's dynamically render now anyway
 export const metadata = {
     title: 'Cabins'
 }
-export default async function Page(){
+export default async function Page({searchParams}){
+    const filter = searchParams?.capacity ?? 'all';
     return (
         <div>
             <h1 className="mb-5 text-accent-400 font-medium
@@ -22,8 +24,10 @@ export default async function Page(){
                 away from home. The perfect spot for a peaceful, calm vacation. Welcome
                 to paradise.
             </p>
-            <Suspense fallback={<Spinner/>}>
-                <CabinList/>
+            <Filter/>
+            <Suspense fallback={<Spinner/>}
+                      key={filter}>
+                <CabinList filter={filter}/>
             </Suspense>
         </div>
     );
