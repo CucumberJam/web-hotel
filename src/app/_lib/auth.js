@@ -12,6 +12,9 @@ const config = {
         authorized({auth, request}){
             return !!auth?.user;
         }
+    },
+    pages: {
+        signIn: '/login'
     }
 }
 export const { handlers: {GET, POST}, auth, signIn, signOut } = NextAuth(config);
