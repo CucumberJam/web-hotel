@@ -2,7 +2,6 @@
 import { isWithinInterval } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
-import {useEffect, useRef, useState} from "react";
 import useWindowDimensions from "@/app/_hooks/useWindowDimensions.js";
 import {useReservation} from "@/app/_context/ReservationContext.js";
 
