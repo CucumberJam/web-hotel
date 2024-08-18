@@ -2,16 +2,19 @@
 import Image from "next/image";
 import {useReservation} from "@/app/_context/ReservationContext.js";
 
-function ReservationForm({maxCapacity}) {
+function ReservationForm({maxCapacity, userName = null, userImage}) {
     const {range} = useReservation();
   return (
     <div className='col-span-2 md:col-span-1
                     scale-[1] md:scale-[1.01]'>
       <div className='bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center'>
-        <p>Logged in as</p>
-
-        {/* <ImageWrapper src={user.image}
-                      name={user.name}/> */}
+          {(userImage && userName) && (
+              <>
+              <p>Logged in as </p>
+              <ImageWrapper src={userImage}
+                            name={userName}/>
+              </>
+          )}
       </div>
         {range?.from && range?.to && (
             <p>
@@ -93,7 +96,7 @@ function ButtonReserve(){
 function ImageWrapper({src, name}){
   return (
       <div className='flex gap-4 items-center'>
-        <Image
+        <img
             // Important to display google profile images
             referrerPolicy='no-referrer'
             className='h-8 rounded-full'
