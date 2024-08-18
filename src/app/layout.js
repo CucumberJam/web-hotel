@@ -1,6 +1,7 @@
 import { Josefin_Sans } from "next/font/google";
 import '@/app/_styless/globals.css';
 import Header from "@/app/_components/Header.js";
+import {ReservationProvider} from "@/app/_context/ReservationContext.js";
 
 const josefinSans = Josefin_Sans({
     subsets: ['latin'],
@@ -17,20 +18,36 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body className={`${josefinSans.className} 
+    return (
+        <html lang="en">
+        <BodyContainer>
+            <Header/>
+            <MainSection>
+                {children}
+            </MainSection>
+            <footer>Copyright by The Web Hotel</footer>
+        </BodyContainer>
+        </html>
+    );
+}
+function BodyContainer({children}){
+    return (
+        <body className={`${josefinSans.className} 
             bg-primary-950 text-primary-100 min-h-screen
             flex flex-col antialiasing`}>
-          <Header/>
-          <div className='flex-1 grid
+        {children}
+        </body>
+    );
+}
+function MainSection({children}){
+    return (
+        <div className='flex-1 grid
           px-4 py-2 sm:px-5 sm:py-4 md:px-8 md:py-5'>
-              <main className='max-w-7xl mx-auto w-full'>
-                  {children}
-              </main>
-          </div>
-          <footer>Copyright by The Web Hotel</footer>
-      </body>
-    </html>
-  );
+            <main className='max-w-7xl mx-auto w-full'>
+                <ReservationProvider>
+                    {children}
+                </ReservationProvider>
+            </main>
+        </div>
+    );
 }
