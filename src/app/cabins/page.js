@@ -2,6 +2,7 @@ import CabinList from "@/app/_components/CabinList.js";
 import {Suspense} from "react";
 import Spinner from "@/app/_components/Spinner.js";
 import Filter from "@/app/_components/Filter.js";
+import ReservationReminder from "@/app/_components/ReservationReminder.js";
 
 export const revalidate = 360; //Do not need it bc use of searchParams it's dynamically render now anyway
 export const metadata = {
@@ -28,6 +29,7 @@ export default async function Page({searchParams}){
             <Suspense fallback={<Spinner/>}
                       key={filter}>
                 <CabinList filter={filter}/>
+                <ReservationReminder/>
             </Suspense>
         </div>
     );
