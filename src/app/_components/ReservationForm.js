@@ -1,9 +1,18 @@
 'use client';
-import Image from "next/image";
 import {useReservation} from "@/app/_context/ReservationContext.js";
+import {useAuth} from "@/app/_context/AuthContext.js";
+import LoginMessage from "@/app/_components/LoginMessage.js";
 
-function ReservationForm({maxCapacity, userName = null, userImage}) {
+function ReservationForm({maxCapacity}) {
     const {range} = useReservation();
+    const session = useAuth();
+
+    if(!session?.user) return <LoginMessage/>;
+
+    const userName = session.user?.name || '';
+    const userImage = session.user?.image || '';
+
+
   return (
     <div className='col-span-2 md:col-span-1
                     scale-[1] md:scale-[1.01]'>
