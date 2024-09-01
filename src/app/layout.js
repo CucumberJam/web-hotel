@@ -1,7 +1,9 @@
 import { Josefin_Sans } from "next/font/google";
 import '@/app/_styless/globals.css';
+import { SessionProvider } from 'next-auth/react'
 import Header from "@/app/_components/Header.js";
 import {ReservationProvider} from "@/app/_context/ReservationContext.js";
+import {AuthProvider} from "@/app/_context/AuthContext.js";
 
 const josefinSans = Josefin_Sans({
     subsets: ['latin'],
@@ -19,15 +21,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en">
-        <BodyContainer>
-            <Header/>
-            <MainSection>
-                {children}
-            </MainSection>
-            <footer>Copyright by The Web Hotel</footer>
-        </BodyContainer>
-        </html>
+        <SessionProvider>
+            <AuthProvider>
+                <html lang="en">
+                <BodyContainer>
+                    <Header/>
+                    <MainSection>
+                        {children}
+                    </MainSection>
+                    <footer>Copyright by The Web Hotel</footer>
+                </BodyContainer>
+                </html>
+            </AuthProvider>
+        </SessionProvider>
     );
 }
 function BodyContainer({children}){
