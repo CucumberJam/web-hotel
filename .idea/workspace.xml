@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="feecf46b-52b9-4bc8-b271-678560717e46" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/_components/SelectCountry.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_components/SelectCountry.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/_components/UpdateProfileForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_components/UpdateProfileForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/_lib/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_lib/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/account/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/account/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/account/profile/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/account/profile/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,22 +37,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/clbs/wiki&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/next/web-hotel",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -93,6 +88,7 @@
       <workItem from="1726914390247" duration="9000" />
       <workItem from="1729161098094" duration="982000" />
       <workItem from="1729225962479" duration="10000" />
+      <workItem from="1729483944066" duration="1385000" />
     </task>
     <servers />
   </component>
