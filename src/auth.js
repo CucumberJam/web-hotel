@@ -82,6 +82,10 @@ export const { auth,
             const guest = await getGuest(session.user.email);
             session.user.guestId = guest.id;
             if(!session.user?.fullName) session.user.fullName = guest.fullName;
+            if(!session.user?.nationalID) session.user.nationalID = guest.nationalID;
+            if(!session.user?.nationality) session.user.nationality = guest.nationality;
+            if(!session.user?.countryFlag) session.user.countryFlag = guest.countryFlag;
+            if(!session.user?.phone) session.user.phone = guest.phone;
             return session;
         }
     },

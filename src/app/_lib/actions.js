@@ -1,5 +1,10 @@
 'use server';
-import {signIn, signOut} from '@/auth.js'
+import {auth, signIn, signOut} from '@/auth.js'
+import bcrypt from "bcryptjs";
+import {userData} from "@/app/_lib/constants.js";
+import validateData from "@/app/_lib/validateHelper.js";
+import {updateGuest} from "@/app/_lib/data-service.js";
+import {revalidatePath} from "next/cache";
 
 export async function signInAction(formData){
     const action = formData.get('action');
@@ -21,6 +26,36 @@ export async function signInCredentialAction(formData){
     }
 
 }
-export async function sinUpAction(){
+export async function updateGuestAction(formData = null){
+    const session = await auth();
+    if(!session) throw new Error('You must be logged in');
 
+    const updatedParams = {};
+    for(const feature in userData){
+       const value = formData.get(feature);
+       if(value){
+           if(feature === 'nationality'){
+               const array = value.split('%');
+               updatedParams.nationality = array[0];
+               updatedParams.countryFlag = array[1];
+           }else {
+               if(session.user[feature] !== value){
+                   updatedParams[feature] = value;
+               }
+           }
+       }
+    }
+    const isValidated = validateData(updatedParams);
+    if(isValidated.success) {
+        if(updatedParams.password) updatedParams.password = await bcrypt.hash(updatedParams.password, 5);
+    }else{
+        const errorMessage = Object.values(isValidated.errors)[0].title;
+        throw new Error(errorMessage);
+    }
+    try{
+        await updateGuest(session.user.guestId, updatedParams);
+        revalidatePath('/account/profile', 'page');
+    }catch (e) {
+        throw new Error(e);
+    }
 }

@@ -1,32 +1,47 @@
-import Image from 'next/image'
-export default function UpdateProfileForm({countryFlag, children}){
+'use client';
+import Image from 'next/image';
+import {useAuth} from "@/app/_context/AuthContext.js";
+import Spinner from "@/app/_components/Spinner.js";
+import {updateGuestAction} from "@/app/_lib/actions.js";
+import { useFormStatus } from "react-dom";
+
+export default function UpdateProfileForm({children}){
+    const { user, loading } = useAuth();
+
+    if(loading) return <Spinner/>;
+
+    const {fullName, email, phone, countryFlag, nationalID} = user;
+
     return (
-        <form className="bg-primary-900 flex flex-col
+        <form action={updateGuestAction}
+            className="bg-primary-900 flex flex-col
                         py-4 sm:py-6 md:py-8
                         px-6 sm:px-10 md:px-12
                         text-sm sm:text-base md:text-lg
                         gap-3 sm:gap-4 md:gap-6 ">
 
-            <FormItem labelName='Full name' htmlFor='fullName'/>
-            <FormItem labelName='Email address' htmlFor='email'/>
-
+            <FormItem labelName='Full name' htmlFor='fullName' defaultValue={fullName || ''}/>
+            <FormItem labelName='Email address' htmlFor='email'  defaultValue={email || ''} type='email' disabled={true}/>
+            <FormItem labelName='Phone number' htmlFor='phone'  defaultValue={phone || ''} type='phone'/>
+            <FormItem labelName='National ID number'  defaultValue={nationalID || ''} htmlFor='nationalID'/>
             <FormItemWithChildrenAndImage labelName='Where are you from?'
-                                          htmlFor="nationality"
-                                          countryFlag={countryFlag}>
+                                           htmlFor="nationality"
+                                           countryFlag={countryFlag || '/logo.png'}>
                 {children}
             </FormItemWithChildrenAndImage>
 
-            <FormItem labelName='National ID number' htmlFor='nationalID'/>
+            <FormItem labelName='Password' htmlFor='password' type='password'/>
 
             <FormButton/>
         </form>
     );
 }
-function FormItem({labelName, htmlFor, type = 'text', disabled = false}){
+function FormItem({labelName, htmlFor, defaultValue = '', type = 'text', disabled = false}){
     return (
         <div className="space-y-2">
             <label htmlFor={htmlFor}>{labelName}</label>
             <input name={htmlFor} id={htmlFor} type={type}
+                   defaultValue={defaultValue}
                 disabled={disabled}
                 className="bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-400
                 px-2 sm:px-3 md:px-5
@@ -52,4 +67,8 @@ function FormButton(){
             Update profile
         </button>
     </div>
+}
+
+function Submit(){
+    const x = useFormStatus();
 }

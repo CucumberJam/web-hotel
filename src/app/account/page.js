@@ -8,8 +8,9 @@ export default async function Page(){
     if(!session?.user) redirect('/login');
     return (
         <div>
-            <h2 className='font-semibold text-2xl text-accent-400 mb-7'>
-                Welcome, {session.user?.name || session.user?.fullName}!
+            <h2 className='font-semibold text-accent-400 mb-7
+            text-base md:text-lg lg:text-2xl'>
+                Welcome, { session.user?.fullName || session.user?.name}!
             </h2>
         </div>
     );
