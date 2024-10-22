@@ -7,8 +7,6 @@
     <list default="true" id="feecf46b-52b9-4bc8-b271-678560717e46" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/_components/ReservationCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_components/ReservationCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/account/reservations/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/account/reservations/page.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +42,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "reserve",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "D:/next/web-hotel",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -91,6 +89,8 @@
       <workItem from="1729161098094" duration="982000" />
       <workItem from="1729225962479" duration="10000" />
       <workItem from="1729483944066" duration="1385000" />
+      <workItem from="1729488507486" duration="8000" />
+      <workItem from="1729571033675" duration="257000" />
     </task>
     <servers />
   </component>
