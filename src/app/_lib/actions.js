@@ -3,8 +3,9 @@ import {auth, signIn, signOut} from '@/auth.js'
 import bcrypt from "bcryptjs";
 import {userData} from "@/app/_lib/constants.js";
 import validateData from "@/app/_lib/validateHelper.js";
-import {updateGuest} from "@/app/_lib/data-service.js";
+import {getBookings, updateGuest} from "@/app/_lib/data-service.js";
 import {revalidatePath} from "next/cache";
+import {supabase} from "@/app/_lib/supabase.js";
 
 export async function signInAction(formData){
     const action = formData.get('action');
@@ -58,4 +59,26 @@ export async function updateGuestAction(formData = null){
     }catch (e) {
         throw new Error(e);
     }
+}
+
+export async function deleteReservation(bookingId){
+    const session = await auth();
+    if(!session) throw new Error('You must be logged in');
+
+    const bookings = await getBookings(session.user.guestId);
+    if (!bookings.some((el) => el.id === +bookingId)) {
+        throw new Error("You are not allowed to delete this booking");
+    }
+
+    const { error } = await supabase.
+    from('bookings').
+    delete().
+    eq('id', bookingId).
+    eq("guestId", session.user.guestId);
+
+    if (error) {
+        console.error(error);
+        throw new Error('Booking could not be deleted');
+    }
+    revalidatePath('/account/reservations');
 }
