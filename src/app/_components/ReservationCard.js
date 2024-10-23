@@ -24,61 +24,130 @@ function ReservationCard({ booking }) {
   } = booking;
 
   return (
-    <div className='flex border border-primary-800'>
-      <div className='relative h-32 aspect-square'>
-        <Image
-          src={image}
-          alt={`Cabin ${name}`}
-          fill className='object-cover border-r border-primary-800'/>
-      </div>
+    <ReservationCardBox>
+      <ReservationImage image={image}
+                        name={name}/>
 
-      <div className='flex-grow px-6 py-3 flex flex-col'>
-        <div className='flex items-center justify-between'>
-          <h3 className='text-xl font-semibold'>
-            {numNights} nights in Cabin {name}
-          </h3>
-          {isPast(new Date(startDate)) ? (
-            <span className='bg-yellow-800 text-yellow-200 h-7 px-3 uppercase text-xs font-bold flex items-center rounded-sm'>
-              past
-            </span>
-          ) : (
-            <span className='bg-green-800 text-green-200 h-7 px-3 uppercase text-xs font-bold flex items-center rounded-sm'>
-              upcoming
-            </span>
-          )}
-        </div>
+      <ReservationInfo>
+        <ReservationInfoTitle startDate={startDate}
+                              numNights={numNights}/>
+        <ReservationInfoDates startDate={startDate}
+                              endDate={endDate}/>
 
-        <p className='text-lg text-primary-300'>
-          {format(new Date(startDate), 'EEE, MMM dd yyyy')} (
-          {isToday(new Date(startDate))
-            ? 'Today'
-            : formatDistanceFromNow(startDate)}
-          ) &mdash; {format(new Date(endDate), 'EEE, MMM dd yyyy')}
-        </p>
+        <ReservationInfoTotal totalPrice={totalPrice}
+                              numGuests={numGuests}
+                              created_at={created_at}/>
+      </ReservationInfo>
 
-        <div className='flex gap-5 mt-auto items-baseline'>
-          <p className='text-xl font-semibold text-accent-400'>${totalPrice}</p>
-          <p className='text-primary-300'>&bull;</p>
-          <p className='text-lg text-primary-300'>
-            {numGuests} guest{numGuests > 1 && 's'}
-          </p>
-          <p className='ml-auto text-sm text-primary-400'>
-            Booked {format(new Date(created_at), 'EEE, MMM dd yyyy, p')}
-          </p>
-        </div>
-      </div>
-
-      {isPast(new Date(startDate)) ? null : <div className='flex flex-col border-l border-primary-800 w-[100px]'>
-        <Link
-            href={`/account/reservations/edit/${id}`}
-            className='group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 border-b border-primary-800 flex-grow px-3 hover:bg-accent-600 transition-colors hover:text-primary-900'>
-          <PencilSquareIcon className='h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors'/>
-          <span className='mt-1'>Edit</span>
-        </Link>
-        <DeleteReservation bookingId={id}/>
-      </div>}
-    </div>
+      <ReservationActions startDate={startDate}
+                          id={id}/>
+    </ReservationCardBox>
   );
 }
 
 export default ReservationCard;
+function ReservationCardBox({children}){
+  return (
+      <div className='flex border border-primary-800
+      flex-col sm:flex-row'>
+        {children}
+      </div>
+  );
+}
+function ReservationImage({image, name}){
+  return (
+      <div className='relative aspect-square
+      h-32 sm:h-40 md:h-36 lg:32'>
+        <Image
+            src={image}
+            alt={`Cabin ${name}`}
+            fill className='object-cover border-r border-primary-800'/>
+      </div>
+  );
+}
+function ReservationInfo({children}){
+  return (
+      <div className='flex-grow flex flex-col
+      px-4 sm:px-6
+      py-2 sm:py-3
+      gap-1 sm:gap-0'>
+        {children}
+      </div>
+  );
+}
+function ReservationInfoTitle({numNights, startDate, name}){
+  return (
+      <div className='flex items-center justify-between'>
+        <h3 className='font-semibold
+        text-base sm:text-lg md:text-xl'>
+          {numNights} nights in Cabin {name}
+        </h3>
+
+        {isPast(new Date(startDate)) ? (
+            <span className='bg-yellow-800 text-yellow-200 text-xs uppercase font-bold flex items-center rounded-sm
+             h-5 sm:h-7
+             px-2 sm:px-3'>
+              past
+            </span>
+        ) : (
+            <span className='bg-green-800 text-green-200 text-xs uppercase font-bold flex items-center rounded-sm
+            h-5 sm:h-7
+            px-2 sm:px-3'>
+              upcoming
+            </span>
+        )}
+      </div>
+  );
+}
+function ReservationInfoDates({startDate, endDate}){
+  return (
+      <p className='text-primary-300
+                    text-sm sm:text-base md:text-lg'>
+        {format(new Date(startDate), 'EEE, MMM dd yyyy')} (
+        {isToday(new Date(startDate))
+            ? 'Today'
+            : formatDistanceFromNow(startDate)}
+        ) &mdash; {format(new Date(endDate), 'EEE, MMM dd yyyy')}
+      </p>
+  );
+}
+function ReservationInfoTotal({totalPrice, numGuests, created_at}){
+  return (
+      <div className='flex mt-auto items-baseline flex-wrap
+      gap-2 lg:gap-5'>
+        <p className='font-semibold text-accent-400
+        text-lg lg:text-xl
+        order-last lg:order-first'>${totalPrice}</p>
+
+        <p className='text-primary-300
+                       text-md lg:text-lg'>
+            &bull; {numGuests} guest{numGuests > 1 && 's'} &bull;
+        </p>
+        <p className='text-primary-400
+                    text-xs lg:text-sm
+                    order-first lg:order-last
+                    ml-0'>
+          Booked {format(new Date(created_at), 'EEE, MMM dd yyyy, p')}
+        </p>
+      </div>
+  );
+}
+function ReservationActions({startDate, id}){
+  if(isPast(new Date(startDate))) return null;
+  return (
+      <div className='flex border-l border-primary-800 w-[100px]
+      border-t sm:border-t-0
+      flex-row sm:flex-col
+      self-end sm:self-auto
+      min-w-[180px] sm:min-w-[99px]
+      min-h-10 md:min-h-max'>
+        <Link href={`/account/reservations/edit/${id}`}
+              className='group flex items-center gap-2 uppercase text-xs font-bold text-primary-300 flex-grow hover:bg-accent-600 transition-colors hover:text-primary-900 px-3
+              border-r sm:border-r-0 sm:border-b border-primary-800'>
+          <PencilSquareIcon className='h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors'/>
+          <span className='mt-1'>Edit</span>
+        </Link>
+        <DeleteReservation bookingId={id}/>
+      </div>
+  );
+}
