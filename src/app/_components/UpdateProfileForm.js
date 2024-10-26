@@ -3,7 +3,7 @@ import Image from 'next/image';
 import {useAuth} from "@/app/_context/AuthContext.js";
 import Spinner from "@/app/_components/Spinner.js";
 import {updateGuestAction} from "@/app/_lib/actions.js";
-import { useFormStatus } from "react-dom";
+import SubmitButton from "@/app/_components/SubmitButton.js";
 
 export default function UpdateProfileForm({children}){
     const { user, loading } = useAuth();
@@ -32,7 +32,7 @@ export default function UpdateProfileForm({children}){
 
             <FormItem labelName='Password' htmlFor='password' type='password'/>
 
-            <FormButton/>
+            <SubmitButton/>
         </form>
     );
 }
@@ -60,18 +60,4 @@ function FormItemWithChildrenAndImage({labelName, htmlFor, countryFlag, children
         </div>
         {children}
     </div>
-}
-function FormButton(){
-    const {pending} = useFormStatus();
-
-    return  <div className="flex justify-end items-center gap-6">
-        <button disabled={pending}
-            className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
-            {pending ? 'Updating...' : 'Update profile'}
-        </button>
-    </div>
-}
-
-function Submit(){
-    const x = useFormStatus();
 }
