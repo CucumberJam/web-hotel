@@ -1,3 +1,5 @@
+import {isWithinInterval} from "date-fns";
+
 function isValidNationalId(id) {
     const pattern = /^[a-zA-Z0-9]{6,12}$/;
     return pattern.test(id);
@@ -67,4 +69,13 @@ export default function validateData(params){
         if(!res) errors[feature] = dictionaryErrorMessages[feature];
     }
     return Object.keys(errors).length > 0 ? {success: false, errors: errors}: {success: true}
+}
+export function isAlreadyBooked(range, datesArr) {
+    return (
+        range?.from &&
+        range?.to &&
+        datesArr.some((date) =>
+            isWithinInterval(date, { start: range.from, end: range.to })
+        )
+    );
 }

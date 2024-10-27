@@ -4,16 +4,8 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import useWindowDimensions from "@/app/_hooks/useWindowDimensions.js";
 import {useReservation} from "@/app/_context/ReservationContext.js";
+import {isAlreadyBooked} from "@/app/_lib/validateHelper.js";
 
-function isAlreadyBooked(range, datesArr) {
-  return (
-    range?.from &&
-    range?.to &&
-    datesArr.some((date) =>
-      isWithinInterval(date, { start: range.from, end: range.to })
-    )
-  );
-}
 
 function DateSelector({regularPrice, discount,
                         minBookingLength, maxBookingLength,

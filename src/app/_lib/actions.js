@@ -2,8 +2,10 @@
 import {auth, signIn, signOut} from '@/auth.js'
 import bcrypt from "bcryptjs";
 import {userData} from "@/app/_lib/constants.js";
-import validateData from "@/app/_lib/validateHelper.js";
-import {getBookings, updateGuest, updateBooking as fetchUpdateBooking} from "@/app/_lib/data-service.js";
+import validateData, {isAlreadyBooked} from "@/app/_lib/validateHelper.js";
+import {getBookings, updateGuest,
+    updateBooking as fetchUpdateBooking,
+    createBooking as fetchCreateBooking,} from "@/app/_lib/data-service.js";
 import {revalidatePath} from "next/cache";
 import {supabase} from "@/app/_lib/supabase.js";
 import {redirect} from "next/navigation";
@@ -62,7 +64,7 @@ export async function updateGuestAction(formData = null){
     }
 }
 
-export async function deleteReservation(bookingId){
+export async function deleteBooking(bookingId){
     try{
         const guestId = await checkUserSession(bookingId);
         if(guestId){
@@ -101,15 +103,50 @@ export async function updateBooking(formData = null){
     if(bookingId === data?.id) revalidatePath('/account/reservations', 'layout');
     redirect('/account/reservations');
 }
-async function checkUserSession(bookingId, message = 'delete'){
+export async function createBooking(bookingData, breakfastPrice, range, bookedDates, formData = null){
+    if(!bookingData?.numNights || !bookingData?.cabinPrice) {
+        throw new Error('You must pick up dates for reservation');
+    }
+    if(!formData.get('numGuests')){
+        throw new Error('You must pick up number of guests');
+    }
+    if(isAlreadyBooked(range, bookedDates)){
+        throw new Error('You must pick up available dates');
+    }
+    try{
+        const guestId = await checkUserSession();
+        if(guestId) {
+            const hasBreakfast = formData.get('hasBreakfast') === 'on';
+            const newBooking = {
+                guestId,
+                ...bookingData,
+                numGuests: Number(formData.get('numGuests')),
+                observations: formData.get('observations').slice(0, 1000),
+                status: 'unconfirmed',
+                isPaid: false,
+                hasBreakfast: hasBreakfast,
+                extrasPrice: hasBreakfast ? breakfastPrice : 0,
+                totalPrice: hasBreakfast ? bookingData.cabinPrice + (breakfastPrice * bookingData.numNights) : bookingData.cabinPrice,
+            }
+            await fetchCreateBooking(newBooking);
+        }
+    }catch (e) {
+        throw new Error(e.message);
+    }
+    revalidatePath(`/cabins/${bookingData.cabinId}`);
+    redirect('/cabins/thankyou')
+}
+async function checkUserSession(bookingId = null, message = 'delete'){
     // Authentication:
     const session = await auth();
     if(!session) throw new Error('You must be logged in');
 
     // Authorization:
-    const bookings = await getBookings(session.user.guestId);
-    if (!bookings.some((el) => el.id === bookingId)) {
-        throw new Error(`You are not allowed to ${message} this booking`);
+    if(bookingId){
+        const bookings = await getBookings(session.user.guestId);
+        if (!bookings.some((el) => el.id === bookingId)) {
+            throw new Error(`You are not allowed to ${message} this booking`);
+        }
     }
 
     return session?.user?.guestId;
