@@ -1,5 +1,5 @@
 'use client';
-import { isWithinInterval } from "date-fns";
+import {differenceInDays, isPast, isSameDay, isWithinInterval} from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import useWindowDimensions from "@/app/_hooks/useWindowDimensions.js";
@@ -19,17 +19,17 @@ function DateSelector({regularPrice, discount,
                         minBookingLength, maxBookingLength,
                         bookedDates}) {
     const {range, setRange, resetRange} = useReservation();
+    const displayRange = isAlreadyBooked(range, bookedDates) ? {} : range;
     const { width } = useWindowDimensions();
-    const numNights = 7;
+    const numNights = differenceInDays(displayRange?.to, displayRange?.from);
     const cabinPrice = numNights * (regularPrice - discount) ;
-
     return (
     <div className="flex flex-col justify-between
     col-span-2 md:col-span-1">
       <DayPicker
         className="pt-4 sm:pt-8 md:pt-12 place-self-center"
         mode="range"
-        selected={range}
+        selected={displayRange}
         min={minBookingLength + 1}
         max={maxBookingLength}
         fromMonth={new Date()}
@@ -37,6 +37,9 @@ function DateSelector({regularPrice, discount,
         toYear={new Date().getFullYear() + 1}
         captionLayout="dropdown"
         numberOfMonths={width < 630 ? 1: 2}
+        disabled={(curDate)=> isPast(curDate) ||
+            bookedDates.some((date) => isSameDay(date, curDate))
+        }
         onSelect={(selectedRange) => selectedRange && setRange(selectedRange)}/>
         <div>
             {range.from || range.to ? (

@@ -26,8 +26,8 @@ function ReservationForm({maxCapacity}) {
           )}
       </div>
         {range?.from && range?.to && (
-            <p>
-            {String(range?.from) + ' to ' + String(range?.to)}
+            <p className='m-auto text-center'>
+                {'From ' + (range?.from).toLocaleDateString() + ' to ' + (range?.to).toLocaleDateString()}
             </p>
         )}
 
