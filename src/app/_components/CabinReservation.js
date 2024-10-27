@@ -18,7 +18,12 @@ export default async function CabinReservation({cabinId, regularPrice, discount,
                           minBookingLength={settings?.minBookingLength || 1}
                           maxBookingLength={settings?.maxBookingLength || 21}
                           bookedDates={bookedDates}/>
-            <ReservationForm maxCapacity={maxCapacity || 1}/>
+            <ReservationForm maxCapacity={maxCapacity || 1}
+                             regularPrice={regularPrice || 100}
+                             discount={discount || 10}
+                             cabinId={cabinId}
+                             breakfastPrice={settings?.breakfastPrice}
+                             bookedDates={bookedDates}/>
         </div>
     );
 }
